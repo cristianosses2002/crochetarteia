@@ -14,7 +14,7 @@
         /* Inline critical CSS with improved contrast */
         :root {
             --primary: #b22222; /* Darker red for better contrast */
-            --secondary: #2e8b57; /* Darker green for better contrast */
+            --secondary: #006400; /* Darker green for better contrast */
             --background: #ffffff; /* Changed to white for better contrast */
             --text: #1a1a1a; /* Darker text color for higher contrast */
             --label-text: #333333; /* Darker label text for better contrast */
@@ -48,7 +48,7 @@
         .header h1 {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--text);
+            color: var(--text); /* Ensure dark text for contrast */
         }
         .header p {
             color: var(--label-text); /* Use darker color for subtitle */
@@ -87,7 +87,7 @@
             background: var(--primary);
         }
         .btn-secondary {
-            background: var(--secondary);
+            background: var(--secondary); /* Darker background for better contrast */
         }
         .btn-group {
             display: flex;
