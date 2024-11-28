@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Imágenes a Crochet</title>
+    <!-- Preload critical Google Fonts -->
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <link rel="preload" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
@@ -49,9 +50,11 @@
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--text); /* Ensure dark text for contrast */
+            margin: 0;
         }
         .header p {
             color: var(--label-text); /* Use darker color for subtitle */
+            margin: 0;
         }
         .form-grid {
             display: grid;
@@ -135,6 +138,367 @@
             margin-top: 1rem;
             font-size: 0.75rem;
             color: var(--label-text); /* Use darker color for footer text */
+        }
+        /* Media Queries for Responsive Design */
+        @media (min-width: 600px) {
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .btn-group {
+                flex-direction: row;
+            }
+        }
+        @media (min-width: 900px) {
+            .form-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .container {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="language-select">
+            <label for="languageSelect" class="visually-hidden">Selecciona el idioma</label>
+            <select id="languageSelect" class="select">
+                <option value="es">Español</option>
+                <option value="en">English</option>
+            </select>
+        </div>
+
+        <header class="header">
+            <h1 id="title">Generador de Imágenes a Crochet</h1>
+            <p id="subtitle">Crea patrones personalizados de tus personajes favoritos</p>
+        </header>
+
+        <section class="form-grid">
+            <h2>Formulario de Selección</h2>
+            <div class="search-bar">
+                <span class="material-icons" aria-hidden="true">search</span>
+                <input type="text" id="promptInput" placeholder="Ejemplo: gato" aria-label="Buscar patrón de crochet">
+            </div>
+
+            <div class="input-group">
+                <label class="label" for="characterSelect" id="characterLabel">
+                    <span class="material-icons align-middle mr-2" aria-hidden="true">face</span>
+                    Selecciona un Personaje
+                </label>
+                <select id="characterSelect" class="select">
+                    <option value="Ninguno">Ninguno</option>
+                    <option value="Mickey Mouse">Mickey Mouse</option>
+                    <option value="Elsa de Frozen">Elsa de Frozen</option>
+                    <option value="Buzz Lightyear">Buzz Lightyear</option>
+                    <option value="Spider-Man">Spider-Man</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label class="label" for="styleSelect" id="styleLabel">
+                    <span class="material-icons align-middle mr-2" aria-hidden="true">style</span>
+                    Selecciona un Estilo
+                </label>
+                <select id="styleSelect" class="select">
+                    <option value="Ninguno">Ninguno</option>
+                    <option value="Amigurumi">Amigurumi</option>
+                    <option value="Kawaii">Kawaii</option>
+                    <option value="Moderno">Moderno</option>
+                    <option value="Vintage">Vintage</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label class="label" for="sizeSelect" id="sizeLabel">
+                    <span class="material-icons align-middle mr-2" aria-hidden="true">straighten</span>
+                    Tamaño (cm)
+                </label>
+                <select id="sizeSelect" class="select">
+                    <option value="Ninguno">Ninguno</option>
+                    <option value="15 cm">15 cm</option>
+                    <option value="30 cm">30 cm</option>
+                    <option value="45 cm">45 cm</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label class="label" for="detailsSelect" id="detailsLabel">
+                    <span class="material-icons align-middle mr-2" aria-hidden="true">category</span>
+                    Selecciona Detalles o Formas
+                </label>
+                <select id="detailsSelect" class="select">
+                    <option value="Ninguno">Ninguno</option>
+                    <option value="Orejas">Orejas</option>
+                    <option value="Alas">Alas</option>
+                    <option value="Sombrero">Sombrero</option>
+                    <option value="Bufanda">Bufanda</option>
+                </select>
+            </div>
+        </section>
+
+        <div class="btn-group">
+            <button id="generatePatternBtn" class="btn btn-primary">Generar Patrón</button>
+            <button id="resetPatternBtn" class="btn btn-secondary">Reiniciar Patrón</button>
+            <button id="copyButton" class="btn btn-secondary">Copiar Patrón</button>
+            <a href="https://go.hotmart.com/L96760653W?ap=07cd" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Curso de Crochet Premium</a>
+        </div>
+
+        <div id="spinner" class="spinner">
+            <div></div>
+        </div>
+
+        <div id="resultContainer"></div>
+    </div>
+
+    <footer>
+        Creador: Cristian Osses
+    </footer>
+
+    <script>
+        const apiToken = 'Bearer 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';
+        const imageCaptioningToken = 'Bearer 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';
+
+        document.getElementById('generatePatternBtn').addEventListener('click', generatePattern);
+        document.getElementById('resetPatternBtn').addEventListener('click', resetPattern);
+        document.getElementById('copyButton').addEventListener('click', copyPatternDetails);
+        document.getElementById('languageSelect').addEventListener('change', changeLanguage);
+
+        function resetPattern() {
+            document.getElementById('characterSelect').selectedIndex = 0;
+            document.getElementById('styleSelect').selectedIndex = 0;
+            document.getElementById('sizeSelect').selectedIndex = 0;
+            document.getElementById('detailsSelect').selectedIndex = 0;
+            document.getElementById('promptInput').value = '';
+            document.getElementById('resultContainer').innerHTML = '';
+        }
+
+        async function generatePattern() {
+            const promptInput = document.getElementById('promptInput').value.trim();
+            const character = document.getElementById('characterSelect').value;
+            const style = document.getElementById('styleSelect').value;
+            const size = document.getElementById('sizeSelect').value;
+            const details = document.getElementById('detailsSelect').value;
+
+            let descriptionParts = [];
+
+            if (promptInput) {
+                descriptionParts.push(`${promptInput} a crochet`);
+            }
+            if (character !== 'Ninguno') {
+                descriptionParts.push(`Personaje: ${character}`);
+            }
+            if (style !== 'Ninguno') {
+                descriptionParts.push(`Estilo: ${style}`);
+            }
+            if (size !== 'Ninguno') {
+                descriptionParts.push(`Tamaño: ${size}`);
+            }
+            if (details !== 'Ninguno') {
+                descriptionParts.push(`Detalles: ${details}`);
+            }
+
+            const description = descriptionParts.join(', ');
+
+            const spinner = document.getElementById('spinner');
+            const resultContainer = document.getElementById('resultContainer');
+
+            spinner.style.display = 'flex';
+
+            try {
+                const uniqueId = new Date().getTime();
+                const response = await queryCrochetModel({"inputs": description, "id": uniqueId});
+                const imgUrl = URL.createObjectURL(response);
+
+                resultContainer.innerHTML = createPatternCard(description, imgUrl);
+                const imageDescription = await queryImageCaptioningModel(response);
+                resultContainer.innerHTML += `<p><strong>Descripción de la imagen:</strong> ${imageDescription}</p>`;
+                const crochetInstructions = await generateCrochetInstructions(description);
+                resultContainer.innerHTML += `<p><strong>Instrucciones de Crochet:</strong> ${crochetInstructions}</p>`;
+            } catch (error) {
+                console.error('Error al generar la imagen:', error);
+                alert('Error al generar la imagen. Por favor, inténtalo nuevamente.');
+            } finally {
+                spinner.style.display = 'none';
+            }
+        }
+
+        async function queryCrochetModel(data) {
+            try {
+                const response = await fetch("https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-schnell", {
+                    headers: {Authorization: apiToken, "Content-Type": "application/json"},
+                    method: "POST",
+                    body: JSON.stringify(data),
+                });
+                if (!response.ok) throw new Error(`Error en la respuesta: ${response.status} ${response.statusText}`);
+                return await response.blob();
+            } catch (error) {
+                console.error('Error al realizar la consulta:', error);
+                throw error;
+            }
+        }
+
+        async function queryImageCaptioningModel(imageBlob) {
+            try {
+                const response = await fetchThe Largest Contentful Paint (LCP) measures how quickly the largest content element (often an image or a block of text) becomes visible within the viewport. In your case, the element causing the delay is the `<h1 id="title">Generador de Imágenes a Crochet</h1>`. To improve LCP, we need to optimize how this element and associated resources (like fonts and CSS) are loaded and rendered.
+
+Here are some strategies to improve LCP for your title on mobile devices:
+
+### Optimize Font Loading
+
+1. **Use Font Display Property**: Ensure fonts are displayed quickly by using `font-display: swap;` in your CSS. This will make text visible while the font is loading.
+
+2. **Minimize Font Requests**: Only request the font weights you need. If you're not using all weights, adjust the Google Fonts URL to limit it to those used.
+
+### Inline Critical CSS
+
+3. **Inline Critical CSS**: Ensure that critical CSS required for styling the title is inlined in the HTML to avoid render-blocking.
+
+### Prioritize Loading
+
+4. **Preload Critical Fonts**: Continue using the `<link rel="preload">` to load fonts early.
+
+5. **Reduce Render-Blocking Resources**: Make sure that any additional CSS or JavaScript does not block rendering of the initial viewport.
+
+Here is the adjusted code, focusing on improving LCP:
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Imágenes a Crochet</title>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet">
+    </noscript>
+    <style>
+        /* Inline critical CSS with improved contrast */
+        :root {
+            --primary: #b22222; /* Darker red for better contrast */
+            --secondary: #006400; /* Darker green for better contrast */
+            --background: #ffffff;
+            --text: #1a1a1a; /* Darker text color for higher contrast */
+            --label-text: #333333; /* Darker label text for better contrast */
+            --button-text: #ffffff; /* Ensure buttons have white text for contrast */
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+        .container {
+            background: #f7f7f7;
+            border-radius: 1rem;
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text); /* Ensure dark text for contrast */
+        }
+        .header p {
+            color: var(--label-text);
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--label-text);
+            margin-bottom: 0.5rem;
+        }
+        .select, .input {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: 2px solid rgba(156, 163, 175);
+        }
+        .btn {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-align: center;
+            transition: background 0.3s ease;
+            color: var(--button-text);
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: var(--primary);
+        }
+        .btn-secondary {
+            background: var(--secondary);
+        }
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 1rem;
+            gap: 0.5rem;
+        }
+        .spinner {
+            display: none;
+            margin-top: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+        .spinner div {
+            border: 4px solid var(--primary);
+            border-top: 4px solid transparent;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .search-bar input {
+            flex-grow: 1;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: 2px solid rgba(156, 163, 175);
+            margin-right: 0.5rem;
+        }
+        .language-select {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+        footer {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: var(--label-text);
         }
         /* Media Queries for Responsive Design */
         @media (min-width: 600px) {
