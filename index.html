@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Imágenes a Crochet</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* CSS Styles */
         :root {
             --primary: #ff6b6b;
             --secondary: #4ecdc4;
@@ -149,6 +151,7 @@
 <body>
     <div class="container">
         <div class="language-select">
+            <label for="languageSelect" class="visually-hidden">Selecciona el idioma</label>
             <select id="languageSelect" class="select">
                 <option value="es">Español</option>
                 <option value="en">English</option>
@@ -162,13 +165,13 @@
 
         <section class="form-grid">
             <div class="search-bar">
-                <span class="material-icons">search</span>
-                <input type="text" id="promptInput" placeholder="Ejemplo: Sonic a crochet">
+                <span class="material-icons" aria-hidden="true">search</span>
+                <input type="text" id="promptInput" placeholder="Ejemplo: Sonic a crochet" aria-label="Buscar patrón de crochet">
             </div>
 
             <div class="input-group">
                 <label class="label" for="characterSelect" id="characterLabel">
-                    <span class="material-icons align-middle mr-2">face</span>
+                    <span class="material-icons align-middle mr-2" aria-hidden="true">face</span>
                     Selecciona un Personaje
                 </label>
                 <select id="characterSelect" class="select">
@@ -177,13 +180,12 @@
                     <option value="Elsa de Frozen">Elsa de Frozen</option>
                     <option value="Buzz Lightyear">Buzz Lightyear</option>
                     <option value="Spider-Man">Spider-Man</option>
-                    <!-- Additional characters omitted for brevity -->
                 </select>
             </div>
 
             <div class="input-group">
                 <label class="label" for="styleSelect" id="styleLabel">
-                    <span class="material-icons align-middle mr-2">style</span>
+                    <span class="material-icons align-middle mr-2" aria-hidden="true">style</span>
                     Selecciona un Estilo
                 </label>
                 <select id="styleSelect" class="select">
@@ -196,7 +198,7 @@
 
             <div class="input-group">
                 <label class="label" for="sizeSelect" id="sizeLabel">
-                    <span class="material-icons align-middle mr-2">straighten</span>
+                    <span class="material-icons align-middle mr-2" aria-hidden="true">straighten</span>
                     Tamaño (cm)
                 </label>
                 <select id="sizeSelect" class="select">
@@ -208,7 +210,7 @@
 
             <div class="input-group">
                 <label class="label" for="detailsSelect" id="detailsLabel">
-                    <span class="material-icons align-middle mr-2">category</span>
+                    <span class="material-icons align-middle mr-2" aria-hidden="true">category</span>
                     Selecciona Detalles o Formas
                 </label>
                 <select id="detailsSelect" class="select">
