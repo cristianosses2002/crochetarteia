@@ -6,7 +6,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Inline critical CSS for faster first paint */
         :root {
             --primary: #ff6b6b;
             --secondary: #4ecdc4;
@@ -94,6 +93,18 @@
             justify-content: center;
             align-items: center;
         }
+        .spinner div {
+            border: 4px solid var(--primary);
+            border-top: 4px solid transparent;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
         .search-bar {
             display: flex;
             align-items: center;
@@ -152,7 +163,7 @@
         <section class="form-grid">
             <div class="search-bar">
                 <span class="material-icons">search</span>
-                <input type="text" id="promptInput" placeholder="Escribe para buscar... Ejemplo: Sonic a crochet">
+                <input type="text" id="promptInput" placeholder="Ejemplo: Sonic a crochet">
             </div>
 
             <div class="input-group">
@@ -218,7 +229,7 @@
         </div>
 
         <div id="spinner" class="spinner">
-            <div class="material-icons">refresh</div>
+            <div></div>
         </div>
 
         <div id="resultContainer"></div>
@@ -346,7 +357,7 @@
                 document.getElementById('generatePatternBtn').textContent = 'Generate Pattern';
                 document.getElementById('resetPatternBtn').textContent = 'Reset Pattern';
                 document.getElementById('copyButton').textContent = 'Copy Pattern';
-                document.getElementById('promptInput').placeholder = 'Type to search... Example: Sonic in crochet';
+                document.getElementById('promptInput').placeholder = 'Example: Sonic in crochet';
             } else {
                 document.getElementById('title').textContent = 'Generador de Imágenes a Crochet';
                 document.getElementById('subtitle').textContent = 'Crea patrones personalizados de tus personajes favoritos';
@@ -357,7 +368,7 @@
                 document.getElementById('generatePatternBtn').textContent = 'Generar Patrón';
                 document.getElementById('resetPatternBtn').textContent = 'Reiniciar Patrón';
                 document.getElementById('copyButton').textContent = 'Copiar Patrón';
-                document.getElementById('promptInput').placeholder = 'Escribe para buscar... Ejemplo: Sonic a crochet';
+                document.getElementById('promptInput').placeholder = 'Ejemplo: Sonic a crochet';
             }
         }
     </script>
