@@ -13,8 +13,8 @@
     <style>
         /* Inline critical CSS with improved contrast */
         :root {
-            --primary: #ff6b6b;
-            --secondary: #4ecdc4;
+            --primary: #b22222; /* Darker red for better contrast */
+            --secondary: #2e8b57; /* Darker green for better contrast */
             --background: #ffffff; /* Changed to white for better contrast */
             --text: #1a1a1a; /* Darker text color for higher contrast */
             --label-text: #333333; /* Darker label text for better contrast */
@@ -80,6 +80,8 @@
             text-align: center;
             transition: background 0.3s ease;
             color: var(--button-text); /* Ensure button text is white */
+            border: none;
+            cursor: pointer;
         }
         .btn-primary {
             background: var(--primary);
