@@ -31,15 +31,17 @@
             min-height: 100vh;
             margin: 0;
             flex-direction: column;
+            padding: 1rem;
         }
         .container {
             background: #f7f7f7;
             border-radius: 1rem;
             box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
             padding: 1rem;
-            width: 90%;
+            width: 100%;
             max-width: 800px;
             position: relative;
+            box-sizing: border-box;
         }
         .header {
             text-align: center;
@@ -48,10 +50,12 @@
         .header h1 {
             font-size: 1.5rem;
             font-weight: 600;
-            color: var(--text); /* Ensure dark text for contrast */
+            color: var(--text);
+            margin: 0;
         }
         .header p {
             color: var(--label-text);
+            margin: 0;
         }
         .form-grid {
             display: grid;
@@ -137,6 +141,14 @@
             color: var(--label-text);
         }
         /* Media Queries for Responsive Design */
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.2rem; /* Smaller title for mobile */
+            }
+            .header p {
+                font-size: 0.9rem;
+            }
+        }
         @media (min-width: 600px) {
             .form-grid {
                 grid-template-columns: repeat(2, 1fr);
