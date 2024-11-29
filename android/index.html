@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Imágenes a Crochet</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"></noscript>
+    <link rel="preload" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet"></noscript>
     <style>
         :root {
             --primary: #b22222;
@@ -24,58 +28,66 @@
             padding: 1rem;
             box-sizing: border-box;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            flex-direction: column;
         }
         .container {
-            max-width: 100%;
-            margin: auto;
+            width: 100%;
+            max-width: 400px;
             background: #f7f7f7;
             border-radius: 1rem;
-            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
-            padding: 1rem;
-            position: relative;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
             box-sizing: border-box;
-            max-width: 800px;
+            position: relative;
+            display: flex;
+            flex-direction: column; /* Organiza elementos verticalmente */
         }
         .header {
             text-align: center;
-            margin-bottom: 1rem;
+            margin-bottom: 5rem;
         }
         .header h1 {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: 600;
             color: var(--text);
             margin: 0;
+            margin-bottom: 1.5rem;
         }
         .header p {
             color: var(--label-text);
-            margin: 0;
+            margin: 1.5rem 0 0;
+        }
+        .language-select {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
         }
         .form-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 0.5rem;
+            gap: 1rem;
         }
         .input-group {
             display: flex;
             flex-direction: column;
         }
         .label {
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             font-weight: 500;
             color: var(--label-text);
             margin-bottom: 0.5rem;
         }
         .select, .input {
-            padding: 0.5rem;
+            padding: 0.6rem;
             border-radius: 0.5rem;
             border: 2px solid rgba(156, 163, 175);
+            font-size: 1rem;
         }
         .btn {
-            padding: 0.5rem;
+            padding: 0.7rem;
             border-radius: 0.5rem;
             font-weight: 500;
             text-align: center;
@@ -83,6 +95,8 @@
             color: var(--button-text);
             border: none;
             cursor: pointer;
+            width: 100%;
+            margin-top: 0.5rem;
         }
         .btn-primary {
             background: var(--primary);
@@ -118,35 +132,52 @@
         .search-bar {
             display: flex;
             align-items: center;
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
         .search-bar input {
             flex-grow: 1;
-            padding: 0.5rem;
+            padding: 0.6rem;
             border-radius: 0.5rem;
             border: 2px solid rgba(156, 163, 175);
             margin-right: 0.5rem;
         }
-        .language-select {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background: var(--background);
-            padding: 0.3rem;
-            border-radius: 0.5rem;
-        }
         footer {
             margin-top: 1rem;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: var(--label-text);
             text-align: center;
         }
+
+        /* Media Queries para diseño responsivo */
         @media (max-width: 600px) {
+            body {
+                padding: 0.5rem; /* Reduce el padding en pantallas pequeñas */
+            }
+            .container {
+                padding: 1rem; /* Ajusta el padding dentro del contenedor */
+            }
             .header h1 {
-                font-size: 1.2rem;
+                font-size: 1.5rem; /* Reduce el tamaño del texto */
             }
             .header p {
-                font-size: 0.9rem;
+                font-size: 0.9rem; /* Ajusta el tamaño del subtítulo */
+            }
+            .btn {
+                padding: 1rem; /* Aumenta el área táctil de los botones */
+                font-size: 1rem; /* Aumenta el tamaño de fuente para mejor legibilidad */
+            }
+            .search-bar input {
+                width: 100%; /* Asegura que el campo de búsqueda ocupe el total del ancho */
+            }
+            .pattern-card {
+                width: 100%; /* Asegura que las tarjetas de patrón ocupen el ancho completo */
+            }
+            .pattern-image {
+                width: 100%; /* Asegura que las imágenes se redimensionen correctamente */
+                height: auto; /* Mantiene la proporción de la imagen */
+            }
+            footer {
+                font-size: 0.7rem; /* Reduce el tamaño de fuente del pie de página */
             }
         }
     </style>
@@ -154,20 +185,18 @@
 <body>
     <div class="container">
         <div class="language-select">
-            <label for="languageSelect" class="visually-hidden">Selecciona el idioma</label>
             <select id="languageSelect" class="select">
                 <option value="es">Español</option>
                 <option value="en">English</option>
             </select>
         </div>
-
-        <header class="header">
+        <div class="header">
             <h1 id="title">Generador de Imágenes a Crochet</h1>
             <p id="subtitle">Crea patrones personalizados de tus personajes favoritos</p>
-        </header>
+        </div>
 
         <section class="form-grid">
-            <h2>Formulario de Selección</h2>
+            <h2 id="formTitle">Formulario de Selección</h2>
             <div class="search-bar">
                 <span class="material-icons" aria-hidden="true">search</span>
                 <input type="text" id="promptInput" placeholder="Ejemplo: gato" aria-label="Buscar patrón de crochet">
@@ -243,7 +272,7 @@
         <div id="resultContainer"></div>
     </div>
 
-    <footer>
+    <footer id="footerText">
         Creador: Cristian Osses
     </footer>
 
@@ -382,6 +411,8 @@
                 if (language === 'en') {
                     document.getElementById('title').textContent = 'Crochet Image Generator';
                     document.getElementById('subtitle').textContent = 'Create custom patterns of your favorite characters';
+                    document.getElementById('formTitle').textContent = 'Selection Form';
+                    document.getElementById('footerText').textContent = 'Creator: Cristian Osses';
                     document.getElementById('characterLabel').textContent = 'Choose a Character';
                     document.getElementById('styleLabel').textContent = 'Choose a Style';
                     document.getElementById('sizeLabel').textContent = 'Size (cm)';
@@ -393,6 +424,8 @@
                 } else {
                     document.getElementById('title').textContent = 'Generador de Imágenes a Crochet';
                     document.getElementById('subtitle').textContent = 'Crea patrones personalizados de tus personajes favoritos';
+                    document.getElementById('formTitle').textContent = 'Formulario de Selección';
+                    document.getElementById('footerText').textContent = 'Creador: Cristian Osses';
                     document.getElementById('characterLabel').textContent = 'Selecciona un Personaje';
                     document.getElementById('styleLabel').textContent = 'Selecciona un Estilo';
                     document.getElementById('sizeLabel').textContent = 'Tamaño (cm)';
