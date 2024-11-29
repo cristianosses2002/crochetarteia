@@ -1,1 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Imágenes a Crochet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #b22222;
+            --secondary: #006400;
+            --background: #ffffff;
+            --text: #1a1a1a;
+            --label-text: #333333;
+            --button-text: #ffffff;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 1rem;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+        .container {
+            max-width: 100%;
+            margin: auto;
+            background: #f7f7f7;
+            border-radius: 1rem;
+            box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            position: relative;
+            box-sizing: border-box;
+            max-width: 800px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+        }
+        .header p {
+            color: var(--label-text);
+            margin: 0;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--label-text);
+            margin-bottom: 0.5rem;
+        }
+        .select, .input {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: 2px solid rgba(156, 163, 175);
+        }
+        .btn {
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-align: center;
+            transition: background 0.3s ease;
+            color: var(--button-text);
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: var(--primary);
+        }
+        .btn-secondary {
+            background: var(--secondary);
+        }
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 1rem;
+            gap: 0.5rem;
+        }
+        .spinner {
+            display: none;
+            margin-top: 1rem;
+            justify-content: center;
+            align-items: center;
+        }
+        .spinner div {
+            border: 4px solid var(--primary);
+            border-top: 4px solid transparent;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .search-bar input {
+            flex-grow: 1;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            border: 2px solid rgba(156, 163, 175);
+            margin-right: 0.5rem;
+        }
+        .language-select {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--background);
+            padding: 0.3rem;
+            border-radius: 0.5rem;
+        }
+        footer {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: var(--label-text);
+            text-align: center;
+        }
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.2rem;
+            }
+            .header p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="language-select">
+            <label for="languageSelect" class="visually-hidden">Selecciona el idioma</label>
+            <select id="languageSelect" class="select">
+                <option value="es">Español</option>
+                <option value="en">English</option>
+            </select>
+        </div>
 
+        <header class="header">
+            <h1 id="title">Generador de Imágenes a Crochet</h1>
+            <p id="subtitle">Crea patrones personalizados de tus personajes favoritos</p>
+        </header>
+
+        <section class="form-grid">
+            <h2>Formulario de Selección</h2>
+            <div class="search-bar">
+                <span class="material-icons" aria-hidden="true">search</span>
+                <input type="text" id="promptInput" placeholder="Ejemplo: gato" aria-label="Buscar patrón de crochet">
+            </div>
+
+            <div class="input-group">
+                <label class="label" for="characterSelect" id="characterLabel">
+                    <span class="material-icons align-middle mr-2" aria-hidden="true">face</span>
+                    Selecciona un Personaje
+                </label>
+                <select id="characterSelect" class="select">
+                    <option value="Ninguno">Ninguno</option>
+                    <option value="Mickey Mouse">Mickey Mouse</option>
+                    <option value="Elsa de Frozen">Elsa de Frozen</option>
+                    <option value="Buzz Lightyear">Buzz Lightyear</option>
+                    <option value="Spider-Man">Spider-Man</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label class="label" for="styleSelect" id="styleLabel">
+                    <span class="material-icons align-middle mr-2" aria-hidden="true">style</span>
+                    Selecciona un Estilo
+                </label>
+                <select id="styleSelect" class="select">
+                    <option value="Ninguno">Ninguno</option>
+                    <option value="Amigurumi">Amigurumi</option>
+                    <option value="Kawaii">Kawaii</option>
+                    <option value="Moderno">Moderno</option>
+                    <option value="Vintage">Vintage</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label class="label" for="sizeSelect" id="sizeLabel">
+                    <span class="material-icons align-middle mr-2" aria-hidden="true">straighten</span>
+                    Tamaño (cm)
+                </label>
+                <select id="sizeSelect" class="select">
+                    <option value="Ninguno">Ninguno</option>
+                    <option value="15 cm">15 cm</option>
+                    <option value="30 cm">30 cm</option>
+                    <option value="45 cm">45 cm</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label class="label" for="detailsSelect" id="detailsLabel">
+                    <span class="material-icons align-middle mr-2" aria-hidden="true">category</span>
+                    Selecciona Detalles o Formas
+                </label>
+                <select id="detailsSelect" class="select">
+                    <option value="Ninguno">Ninguno</option>
+                    <option value="Orejas">Orejas</option>
+                    <option value="Alas">Alas</option>
+                    <option value="Sombrero">Sombrero</option>
+                    <option value="Bufanda">Bufanda</option>
+                </select>
+            </div>
+        </section>
+
+        <div class="btn-group">
+            <button id="generatePatternBtn" class="btn btn-primary">Generar Patrón</button>
+            <button id="resetPatternBtn" class="btn btn-secondary">Reiniciar Patrón</button>
+            <button id="copyButton" class="btn btn-secondary">Copiar Patrón</button>
+            <a href="https://go.hotmart.com/L96760653W?ap=07cd" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Curso de Crochet Premium</a>
+        </div>
+
+        <div id="spinner" class="spinner">
+            <div></div>
+        </div>
+
+        <div id="resultContainer"></div>
+    </div>
+
+    <footer>
+        Creador: Cristian Osses
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const apiToken = 'Bearer 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';
+            const imageCaptioningToken = 'Bearer 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';
+
+            document.getElementById('generatePatternBtn').addEventListener('click', generatePattern);
+            document.getElementById('resetPatternBtn').addEventListener('click', resetPattern);
+            document.getElementById('copyButton').addEventListener('click', copyPatternDetails);
+            document.getElementById('languageSelect').addEventListener('change', changeLanguage);
+
+            function resetPattern() {
+                document.getElementById('characterSelect').selectedIndex = 0;
+                document.getElementById('styleSelect').selectedIndex = 0;
+                document.getElementById('sizeSelect').selectedIndex = 0;
+                document.getElementById('detailsSelect').selectedIndex = 0;
+                document.getElementById('promptInput').value = '';
+                document.getElementById('resultContainer').innerHTML = '';
+            }
+
+            async function generatePattern() {
+                const promptInput = document.getElementById('promptInput').value.trim();
+                const character = document.getElementById('characterSelect').value;
+                const style = document.getElementById('styleSelect').value;
+                const size = document.getElementById('sizeSelect').value;
+                const details = document.getElementById('detailsSelect').value;
+
+                let descriptionParts = [];
+
+                if (promptInput) {
+                    descriptionParts.push(`${promptInput} a crochet`);
+                }
+                if (character !== 'Ninguno') {
+                    descriptionParts.push(`Personaje: ${character}`);
+                }
+                if (style !== 'Ninguno') {
+                    descriptionParts.push(`Estilo: ${style}`);
+                }
+                if (size !== 'Ninguno') {
+                    descriptionParts.push(`Tamaño: ${size}`);
+                }
+                if (details !== 'Ninguno') {
+                    descriptionParts.push(`Detalles: ${details}`);
+                }
+
+                const description = descriptionParts.join(', ');
+
+                const spinner = document.getElementById('spinner');
+                const resultContainer = document.getElementById('resultContainer');
+
+                spinner.style.display = 'flex';
+
+                try {
+                    const uniqueId = new Date().getTime();
+                    const response = await queryCrochetModel({"inputs": description, "id": uniqueId});
+                    const imgUrl = URL.createObjectURL(response);
+
+                    resultContainer.innerHTML = createPatternCard(description, imgUrl);
+                    const imageDescription = await queryImageCaptioningModel(response);
+                    resultContainer.innerHTML += `<p><strong>Descripción de la imagen:</strong> ${imageDescription}</p>`;
+                    const crochetInstructions = await generateCrochetInstructions(description);
+                    resultContainer.innerHTML += `<p><strong>Instrucciones de Crochet:</strong> ${crochetInstructions}</p>`;
+                } catch (error) {
+                    console.error('Error al generar la imagen:', error);
+                    alert('Error al generar la imagen. Por favor, inténtalo nuevamente.');
+                } finally {
+                    spinner.style.display = 'none';
+                }
+            }
+
+            async function queryCrochetModel(data) {
+                try {
+                    const response = await fetch("https://api-inference.huggingface.co/models/black-forest-labs/FLUX.1-schnell", {
+                        headers: {Authorization: apiToken, "Content-Type": "application/json"},
+                        method: "POST",
+                        body: JSON.stringify(data),
+                    });
+                    if (!response.ok) throw new Error(`Error en la respuesta: ${response.status} ${response.statusText}`);
+                    return await response.blob();
+                } catch (error) {
+                    console.error('Error al realizar la consulta:', error);
+                    throw error;
+                }
+            }
+
+            async function queryImageCaptioningModel(imageBlob) {
+                try {
+                    const response = await fetch("https://api-inference.huggingface.co/models/Salesforce/blip-image-captioning-large", {
+                        headers: {Authorization: imageCaptioningToken, "Content-Type": "application/octet-stream"},
+                        method: "POST",
+                        body: imageBlob,
+                    });
+                    const result = await response.json();
+                    return result[0]?.generated_text || 'No se pudo generar una descripción de la imagen.';
+                } catch (error) {
+                    console.error('Error al generar la descripción de la imagen:', error);
+                    return 'Error al generar la descripción de la imagen.';
+                }
+            }
+
+            async function generateCrochetInstructions(description) {
+                try {
+                    return `Instrucciones para ${description}: Comienza con un anillo mágico, sigue con puntos bajos, y aumenta según sea necesario para formar la figura.`;
+                } catch (error) {
+                    console.error('Error al generar las instrucciones de crochet:', error);
+                    return 'Error al generar las instrucciones de crochet.';
+                }
+            }
+
+            function createPatternCard(description, imageUrl) {
+                return `<div class="pattern-card"><img class="pattern-image" src="${imageUrl}" alt="Patrón generado para la descripción: ${description}" width="300" height="200"><div><h2 class="text-xl font-bold mb-2">Patrón Generado</h2><p class="mt-4"><strong>Descripción:</strong> ${description}</p></div></div>`;
+            }
+
+            function copyPatternDetails() {
+                const resultContainer = document.getElementById('resultContainer');
+                const patternCard = resultContainer.querySelector('.pattern-card:last-child');
+
+                if (!patternCard) {
+                    alert('Primero genera un patrón para poder copiarlo');
+                    return;
+                }
+
+                const description = patternCard.querySelector('p').textContent;
+                navigator.clipboard.writeText(description)
+                    .then(() => { alert('Descripción copiada al portapapeles.'); })
+                    .catch(err => {
+                        console.error('Error al copiar:', err);
+                        alert('No se pudo copiar el patrón. Por favor, inténtalo de nuevo.');
+                    });
+            }
+
+            function changeLanguage() {
+                const language = document.getElementById('languageSelect').value;
+                if (language === 'en') {
+                    document.getElementById('title').textContent = 'Crochet Image Generator';
+                    document.getElementById('subtitle').textContent = 'Create custom patterns of your favorite characters';
+                    document.getElementById('characterLabel').textContent = 'Choose a Character';
+                    document.getElementById('styleLabel').textContent = 'Choose a Style';
+                    document.getElementById('sizeLabel').textContent = 'Size (cm)';
+                    document.getElementById('detailsLabel').textContent = 'Select Details or Shapes';
+                    document.getElementById('generatePatternBtn').textContent = 'Generate Pattern';
+                    document.getElementById('resetPatternBtn').textContent = 'Reset Pattern';
+                    document.getElementById('copyButton').textContent = 'Copy Pattern';
+                    document.getElementById('promptInput').placeholder = 'Example: cat';
+                } else {
+                    document.getElementById('title').textContent = 'Generador de Imágenes a Crochet';
+                    document.getElementById('subtitle').textContent = 'Crea patrones personalizados de tus personajes favoritos';
+                    document.getElementById('characterLabel').textContent = 'Selecciona un Personaje';
+                    document.getElementById('styleLabel').textContent = 'Selecciona un Estilo';
+                    document.getElementById('sizeLabel').textContent = 'Tamaño (cm)';
+                    document.getElementById('detailsLabel').textContent = 'Selecciona Detalles o Formas';
+                    document.getElementById('generatePatternBtn').textContent = 'Generar Patrón';
+                    document.getElementById('resetPatternBtn').textContent = 'Reiniciar Patrón';
+                    document.getElementById('copyButton').textContent = 'Copiar Patrón';
+                    document.getElementById('promptInput').placeholder = 'Ejemplo: gato';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
