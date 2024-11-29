@@ -251,7 +251,7 @@
         <div class="btn-group">
             <button id="generatePatternBtn" class="btn btn-primary">Generar Patrón</button>
             <button id="resetPatternBtn" class="btn btn-secondary">Reiniciar Patrón</button>
-            <button id="copyButton" class="btn btn-secondary">Copiar Patrón</button>
+            <button id="copyButton" class="btn btn-secondary">Copiar Instrucciones</button>
             <a href="https://go.hotmart.com/L96760653W?ap=07cd" class="btn btn-primary" target="_blank" rel="noopener noreferrer">Curso de Crochet Premium</a>
         </div>
 
@@ -326,7 +326,7 @@
                     const imageDescription = await queryImageCaptioningModel(response);
                     resultContainer.innerHTML += `<p><strong>Descripción de la imagen:</strong> ${imageDescription}</p>`;
                     const crochetInstructions = await generateCrochetInstructions(description);
-                    resultContainer.innerHTML += `<p><strong>Instrucciones de Crochet:</strong> ${crochetInstructions}</p>`;
+                    resultContainer.innerHTML += `<p id="crochetInstructions"><strong>Instrucciones de Crochet:</strong> ${crochetInstructions}</p>`;
                 } catch (error) {
                     console.error('Error al generar la imagen:', error);
                     alert('Error al generar la imagen. Por favor, inténtalo nuevamente.');
@@ -380,19 +380,19 @@
 
             function copyPatternDetails() {
                 const resultContainer = document.getElementById('resultContainer');
-                const patternCard = resultContainer.querySelector('.pattern-card:last-child');
+                const instructions = resultContainer.querySelector('#crochetInstructions');
 
-                if (!patternCard) {
-                    alert('Primero genera un patrón para poder copiarlo');
+                if (!instructions) {
+                    alert('Primero genera un patrón para poder copiar las instrucciones');
                     return;
                 }
 
-                const description = patternCard.querySelector('p').textContent;
-                navigator.clipboard.writeText(description)
-                    .then(() => { alert('Descripción copiada al portapapeles.'); })
+                const instructionsText = instructions.textContent;
+                navigator.clipboard.writeText(instructionsText)
+                    .then(() => { alert('Instrucciones copiadas al portapapeles.'); })
                     .catch(err => {
                         console.error('Error al copiar:', err);
-                        alert('No se pudo copiar el patrón. Por favor, inténtalo de nuevo.');
+                        alert('No se pudo copiar las instrucciones. Por favor, inténtalo de nuevo.');
                     });
             }
 
@@ -409,7 +409,7 @@
                     document.getElementById('detailsLabel').textContent = 'Select Details or Shapes';
                     document.getElementById('generatePatternBtn').textContent = 'Generate Pattern';
                     document.getElementById('resetPatternBtn').textContent = 'Reset Pattern';
-                    document.getElementById('copyButton').textContent = 'Copy Pattern';
+                    document.getElementById('copyButton').textContent = 'Copy Instructions';
                     document.getElementById('promptInput').placeholder = 'Example: cat';
                 } else {
                     document.getElementById('title').textContent = 'Generador de Imágenes a Crochet';
@@ -422,7 +422,7 @@
                     document.getElementById('detailsLabel').textContent = 'Selecciona Detalles o Formas';
                     document.getElementById('generatePatternBtn').textContent = 'Generar Patrón';
                     document.getElementById('resetPatternBtn').textContent = 'Reiniciar Patrón';
-                    document.getElementById('copyButton').textContent = 'Copiar Patrón';
+                    document.getElementById('copyButton').textContent = 'Copiar Instrucciones';
                     document.getElementById('promptInput').placeholder = 'Ejemplo: gato';
                 }
             }
