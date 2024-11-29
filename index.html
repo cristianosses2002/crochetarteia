@@ -4,43 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redireccionando...</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-            color: #333;
-        }
-        .spinner {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(() => {
-                if (/Android/i.test(navigator.userAgent)) {
-                    window.location.href = 'android/'; // Redirige a la carpeta Android
-                } else {
-                    window.location.href = 'pc/'; // Redirige a la carpeta PC
-                }
-            }, 1000); // Añade un pequeño retraso para mostrar la animación
+            if (/Android/i.test(navigator.userAgent)) {
+                window.location.href = 'android/index.html'; // Redirige a Android
+            } else {
+                window.location.href = 'pc/index.html'; // Redirige a PC
+            }
         });
     </script>
 </head>
 <body>
-    <div class="spinner"></div>
 </body>
 </html>
