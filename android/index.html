@@ -6,9 +6,9 @@
     <title>Generador de Imágenes a Crochet</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" type="text/css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"></noscript>
-    <link rel="preload" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet" type="text/css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet"></noscript>
     <style>
         :root {
@@ -43,7 +43,7 @@
             box-sizing: border-box;
             position: relative;
             display: flex;
-            flex-direction: column; /* Organiza elementos verticalmente */
+            flex-direction: column;
         }
         .header {
             text-align: center;
@@ -151,33 +151,26 @@
         /* Media Queries para diseño responsivo */
         @media (max-width: 600px) {
             body {
-                padding: 0.5rem; /* Reduce el padding en pantallas pequeñas */
+                padding: 0.5rem;
             }
             .container {
-                padding: 1rem; /* Ajusta el padding dentro del contenedor */
+                padding: 1rem;
             }
             .header h1 {
-                font-size: 1.5rem; /* Reduce el tamaño del texto */
+                font-size: 1.5rem;
             }
             .header p {
-                font-size: 0.9rem; /* Ajusta el tamaño del subtítulo */
+                font-size: 0.9rem;
             }
             .btn {
-                padding: 1rem; /* Aumenta el área táctil de los botones */
-                font-size: 1rem; /* Aumenta el tamaño de fuente para mejor legibilidad */
+                padding: 1rem;
+                font-size: 1rem;
             }
             .search-bar input {
-                width: 100%; /* Asegura que el campo de búsqueda ocupe el total del ancho */
-            }
-            .pattern-card {
-                width: 100%; /* Asegura que las tarjetas de patrón ocupen el ancho completo */
-            }
-            .pattern-image {
-                width: 100%; /* Asegura que las imágenes se redimensionen correctamente */
-                height: auto; /* Mantiene la proporción de la imagen */
+                width: 100%;
             }
             footer {
-                font-size: 0.7rem; /* Reduce el tamaño de fuente del pie de página */
+                font-size: 0.7rem;
             }
         }
     </style>
@@ -276,7 +269,7 @@
         Creador: Cristian Osses
     </footer>
 
-    <script>
+    <script defer>
         document.addEventListener('DOMContentLoaded', (event) => {
             const apiToken = 'Bearer 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';
             const imageCaptioningToken = 'Bearer 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';
