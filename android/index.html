@@ -41,13 +41,12 @@
         }
         .header p {
             color: #333333;
-            margin: 1.5rem 0 0;
+            margin: 1.5rem 0;
             text-align: center;
         }
         .language-select {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
+            margin-top: 1rem;
+            text-align: center;
         }
         .form-grid {
             display: grid;
@@ -161,16 +160,16 @@
 </head>
 <body>
     <div class="container">
+        <div class="header">
+            <h1 id="title">Generador de Imágenes a Crochet</h1>
+            <p id="subtitle">Crea patrones personalizados de tus personajes favoritos</p>
+        </div>
         <div class="language-select">
             <label for="languageSelect" class="label">Selecciona el idioma</label>
             <select id="languageSelect" class="select">
                 <option value="es">Español</option>
                 <option value="en">English</option>
             </select>
-        </div>
-        <div class="header">
-            <h1 id="title">Generador de Imágenes a Crochet</h1>
-            <p id="subtitle">Crea patrones personalizados de tus personajes favoritos</p>
         </div>
 
         <section class="form-grid">
