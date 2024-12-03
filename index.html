@@ -6,11 +6,18 @@
     <title>Redireccionando...</title>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            let url = 'https://crochetarteia.com/pc/index.html'; // Por defecto PC
             if (/Android/i.test(navigator.userAgent)) {
-                window.location.href = 'android/index.html'; // Redirige a Android
-            } else {
-                window.location.href = 'pc/index.html'; // Redirige a PC
+                url = 'https://crochetarteia.com/android/index.html'; // Para Android
             }
+
+            // Crear un iframe oculto que carga la página deseada
+            let iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.border = 'none';
+            document.body.appendChild(iframe);
         });
     </script>
 </head>
