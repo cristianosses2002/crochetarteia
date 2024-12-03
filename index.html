@@ -6,25 +6,11 @@
     <title>Redireccionando...</title>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Establecer la URL por defecto (para PC)
-            let url = 'https://crochetarteia.com/pc/index.html'; 
-            
-            // Comprobar si el dispositivo es Android y redirigir a la versión adecuada
             if (/Android/i.test(navigator.userAgent)) {
-                url = 'https://crochetarteia.com/android/index.html'; // Para dispositivos Android
+                window.location.href = 'android/index.html'; // Redirige a Android
+            } else {
+                window.location.href = 'pc/index.html'; // Redirige a PC
             }
-
-            // Crear un iframe que carga la página deseada
-            let iframe = document.createElement('iframe');
-            iframe.src = url; // Asignar la URL
-            iframe.style.position = 'absolute';
-            iframe.style.top = '0';
-            iframe.style.left = '0';
-            iframe.style.width = '0';  // Establecer el tamaño de 0x0 para que no sea visible
-            iframe.style.height = '0'; // Asegurarse de que no ocupe espacio visible
-            iframe.style.border = 'none'; // Eliminar bordes del iframe
-            iframe.style.visibility = 'visible'; // Asegurar que sea visible pero sin afectar el diseño
-            document.body.appendChild(iframe); // Agregar el iframe al cuerpo del documento
         });
     </script>
 </head>
